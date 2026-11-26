@@ -71,3 +71,55 @@ class Expense:
 
 expense = RecurringExpense("Internet Bill", 1500, "Monthly")
 expense.display_expense()
+
+class ExpenseTracker:
+    """Tracks expenses and computes spending summaries."""
+
+    def __init__(self, owner):
+        self._owner = owner
+        self._expenses = []
+
+    def add_expense(self, expense):
+        """Add an Expense or RecurringExpense to the list."""
+        if isinstance(expense, Expense):
+            self._expenses.append(expense)
+
+    def get_expenses(self):
+        """Return all recorded expenses."""
+        return self._expenses
+
+    def total_by_category(self):
+        """Return total spent per category."""
+        totals = {}
+        for exp in self._expenses:
+            cat = exp.get_category()
+            totals[cat] = totals.get(cat, 0) + exp.get_amount()
+        return totals
+
+    def monthly_summary(self, year, month):
+        """Return category totals for a specific year and month."""
+        summary = {}
+        for exp in self._expenses:
+            d = exp.get_date()
+            if d.year == year and d.month == month:
+                cat = exp.get_category()
+                summary[cat] = summary.get(cat, 0) + exp.get_amount()
+        return summary
+
+    def top_spending(self):
+        """Return the highest expense, or None if empty."""
+        return max(self._expenses) if self._expenses else None
+
+    def check_budget(self, budget):
+        """Check category spending against a Budget object."""
+        cat = budget.get_category()
+        spent = self.total_by_category().get(cat, 0)
+        return {
+            "spent": spent,
+            "remaining": budget.remaining(spent),
+            "is_over": budget.is_over(spent),
+        }
+
+    def __len__(self):
+        """Return total number of expenses."""
+        return len(self._expenses)
