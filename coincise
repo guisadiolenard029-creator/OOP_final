@@ -47,6 +47,7 @@ class Expense:
         return self._amount < other._amount
 
     def __eq__(self, other):
+    
         if not isinstance(other, Expense):
             return NotImplemented
         return (
@@ -55,3 +56,18 @@ class Expense:
             and self._category == other._category
             and self._note == other._note
         )
+    
+    class RecurringExpense:
+    def __init__(self, name, amount, frequency):
+        self.name = name
+        self.amount = amount
+        self.frequency = frequency
+
+    def display_expense(self):
+        print("Expense:", self.name)
+        print("Amount:", self.amount)
+        print("Frequency:", self.frequency)
+
+
+expense = RecurringExpense("Internet Bill", 1500, "Monthly")
+expense.display_expense()
