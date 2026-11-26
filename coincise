@@ -57,7 +57,7 @@ class Expense:
             and self._note == other._note
         )
     
-    class RecurringExpense:
+class RecurringExpense:
     def __init__(self, name, amount, frequency):
         self.name = name
         self.amount = amount
