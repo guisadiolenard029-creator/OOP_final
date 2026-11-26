@@ -1,1 +1,57 @@
+from datetime import date
 
+
+class Expense:
+    def __init__(self, date, amount, category, note=""):
+        self._date = date
+        self._amount = amount
+        self._category = category
+        self._note = note
+
+    def get_amount(self):
+        return self._amount
+
+    def set_amount(self, amount):
+        if amount < 0:
+            raise ValueError("Amount cannot be negative.")
+        self._amount = amount
+
+    def get_date(self):
+        return self._date
+
+    def get_category(self):
+        return self._category
+
+    def get_note(self):
+        return self._note
+
+    def describe(self):
+        return (
+            f"{self._date} | "
+            f"₱{self._amount:.2f} | "
+            f"{self._category} | "
+            f"{self._note}"
+        )
+
+    def __repr__(self):
+        return (
+            f"Expense(date={self._date!r}, "
+            f"amount={self._amount!r}, "
+            f"category={self._category!r}, "
+            f"note={self._note!r})"
+        )
+
+    def __lt__(self, other):
+        if not isinstance(other, Expense):
+            return NotImplemented
+        return self._amount < other._amount
+
+    def __eq__(self, other):
+        if not isinstance(other, Expense):
+            return NotImplemented
+        return (
+            self._date == other._date
+            and self._amount == other._amount
+            and self._category == other._category
+            and self._note == other._note
+        )
