@@ -123,3 +123,33 @@ class ExpenseTracker:
     def __len__(self):
         """Return total number of expenses."""
         return len(self._expenses)
+
+
+
+class Budget:
+    def __init__(self, limit, category=None):
+        if limit < 0:
+            raise ValueError("Budget limit cannot be negative.")
+        self._limit = limit
+        self._category = category  # None means an overall budget
+
+    def get_limit(self):
+        return self._limit
+
+    def set_limit(self, value):
+        if value < 0:
+            raise ValueError("Budget limit cannot be negative.")
+        self._limit = value
+
+    def is_over(self, total):
+        return total > self._limit
+
+    def remaining(self, total):
+        return self._limit - total
+
+    def __repr__(self):
+        return f"Budget(limit={self._limit}, category={self._category!r})"
+
+
+
+
